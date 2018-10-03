@@ -46,7 +46,7 @@ module Lita
         Lita.logger.debug(strings)
         Lita.logger.debug(msg)
         Lita.logger.debug("*******")
-
+        msg
       end
 
       def set_topic(target, topic)
