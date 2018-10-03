@@ -40,7 +40,13 @@ module Lita
 
       def send_messages(target, strings)
         api = API.new(config)
-        api.send_messages(channel_for(target), strings)
+        msg = api.send_messages(channel_for(target), strings)
+        Lita.logger.debug("*******")
+        Lita.logger.debug(target)
+        Lita.logger.debug(strings)
+        Lita.logger.debug(msg)
+        Lita.logger.debug("*******")
+
       end
 
       def set_topic(target, topic)
