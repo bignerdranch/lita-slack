@@ -44,8 +44,8 @@ module Lita
         str = strings
         thread_ts = nil
         if comps.count > 1
-          str = comps[1]
-          thread_ts =comps[0]
+          str = [comps[1]]
+          thread_ts = comps[0]
         end
 
         msg = api.send_messages(channel_for(target), str, thread_ts)
