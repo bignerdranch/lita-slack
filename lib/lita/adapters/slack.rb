@@ -40,7 +40,7 @@ module Lita
 
       def send_messages(target, strings)
         api = API.new(config)
-        comps = strings.split("$_BNR_TS_$")
+        comps = strings[0].split("$_BNR_TS_$")
         str = strings
         thread_ts = nil
         if comps.count > 1
