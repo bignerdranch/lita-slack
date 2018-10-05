@@ -41,7 +41,6 @@ module Lita
       def send_messages(target, strings)
         Lita.logger.debug("*******")
         Lita.logger.debug(target)
-        Lita.logger.debug(target[:ts])
         Lita.logger.debug(strings)
         Lita.logger.debug(msg)
         Lita.logger.debug("*******")
