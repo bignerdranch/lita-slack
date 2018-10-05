@@ -39,6 +39,13 @@ module Lita
       end
 
       def send_messages(target, strings)
+        Lita.logger.debug("*******")
+        Lita.logger.debug(target)
+        Lita.logger.debug(target[:ts])
+        Lita.logger.debug(strings)
+        Lita.logger.debug(msg)
+        Lita.logger.debug("*******")
+
         api = API.new(config)
         comps = strings[0].split("$_BNR_TS_$")
         str = strings
@@ -50,11 +57,7 @@ module Lita
 
         msg = api.send_messages(channel_for(target), str, thread_ts)
 
-        Lita.logger.debug("*******")
-        Lita.logger.debug(target)
-        Lita.logger.debug(strings)
         Lita.logger.debug(msg)
-        Lita.logger.debug("*******")
         msg
       end
 
