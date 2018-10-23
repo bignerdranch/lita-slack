@@ -39,8 +39,25 @@ module Lita
       end
 
       def send_messages(target, strings)
+        Lita.logger.debug("*******")
+
+
         api = API.new(config)
-        api.send_messages(channel_for(target), strings)
+        comps = strings[0].split("$_BNR_TS_$")
+        str = strings
+        thread_ts = nil
+        if comps.count > 1
+          str = [comps[1]]
+          thread_ts = comps[0]
+        end
+
+        msg = api.send_messages(channel_for(target), str, thread_ts)
+
+        Lita.logger.debug(target)
+        Lita.logger.debug(strings)
+        Lita.logger.debug(msg)
+        Lita.logger.debug("*******")
+        msg
       end
 
       def set_topic(target, topic)
