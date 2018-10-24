@@ -46,9 +46,14 @@ module Lita
         comps = strings[0].split("$_BNR_TS_$")
         str = strings
         thread_ts = nil
+        channel =  channel_for(target)
         if comps.count > 1
           str = [comps[1]]
-          thread_ts = comps[0]
+          # should move this into a config
+          # C0DS5627N = #thanks
+          # C024FA2V7 = #serious-business
+          thread_ts = comps[0] unless (channel == 'C0DS5627N' || channel == 'C024FA2V7')
+
         end
 
         msg = api.send_messages(channel_for(target), str, thread_ts)
