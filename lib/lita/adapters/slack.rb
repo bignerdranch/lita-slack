@@ -54,6 +54,7 @@ module Lita
         msg = api.send_messages(channel_for(target), str, thread_ts)
 
         Lita.logger.debug(target)
+        Lita.logger.debug(channel_for(target))
         Lita.logger.debug(strings)
         Lita.logger.debug(msg)
         Lita.logger.debug("*******")
