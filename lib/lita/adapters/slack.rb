@@ -41,22 +41,41 @@ module Lita
       def send_messages(target, strings)
         Lita.logger.debug("*******")
 
-
         api = API.new(config)
-        comps = strings[0].split("$_BNR_TS_$")
         str = strings
-        thread_ts = nil
-        channel =  channel_for(target)
-        if comps.count > 1
-          str = [comps[1]]
-          # should move this into a config
-          # C0DS5627N = #thanks
-          # C024FA2V7 = #serious-business
-          thread_ts = comps[0] unless (channel == 'C0DS5627N' || channel == 'C024FA2V7')
+        # thread_ts = nil
+        channel = channel_for(target)
+        threaded_reply = nil
 
+        if strings[0] == "$_karma_$"
+          ignored_channels = strings[1].split(',')
+          summary = strings[2]
+          full_text = strings[3]
+
+          if ignored_channels.include? channel
+            str = fullText
+          else
+            threaded_reply = full_text
+            str = summary
+
+          end
         end
 
-        msg = api.send_messages(channel_for(target), str, thread_ts)
+        msg = api.send_messages(channel, str)
+        api.send_messages(channel, threaded_reply, msg['ts']) unless threaded_reply.nil?
+
+
+        # comps = strings[0].split("$_BNR_TS_$")
+        # if comps.count > 1
+        #   str = [comps[1]]
+        #   # should move this into a config
+        #   # C0DS5627N = #thanks
+        #   # C024FA2V7 = #serious-business
+        #   thread_ts = comps[0] unless (channel == 'C0DS5627N' || channel == 'C024FA2V7')
+        #
+        # end
+        #
+        # msg = api.send_messages(channel, str, thread_ts)
 
         Lita.logger.debug(target)
         Lita.logger.debug(channel_for(target))
