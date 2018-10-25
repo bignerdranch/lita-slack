@@ -53,7 +53,7 @@ module Lita
           full_text = strings[3]
 
           if ignored_channels.include? channel
-            str = fullText
+            str = full_text
           else
             threaded_reply = full_text
             str = summary
