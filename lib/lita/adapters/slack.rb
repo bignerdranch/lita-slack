@@ -61,8 +61,8 @@ module Lita
           end
         end
 
-        msg = api.send_messages(channel, str)
-        api.send_messages(channel, threaded_reply, msg['ts']) unless threaded_reply.nil?
+        msg = api.send_messages(channel, [str])
+        api.send_messages(channel, [threaded_reply], msg['ts']) unless threaded_reply.nil?
 
 
         # comps = strings[0].split("$_BNR_TS_$")
