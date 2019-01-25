@@ -4,6 +4,7 @@ require 'lita/adapters/slack/team_data'
 require 'lita/adapters/slack/slack_im'
 require 'lita/adapters/slack/slack_user'
 require 'lita/adapters/slack/slack_channel'
+require 'lita/adapters/slack/slack_source'
 
 module Lita
   module Adapters
