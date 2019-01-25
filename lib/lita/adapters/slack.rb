@@ -43,6 +43,7 @@ module Lita
         api = API.new(config)
         str = strings
         channel = channel_for(target)
+        thread_ts = target.thread_ts
         threaded_reply = nil
 
         if strings[0] == '$_karma_$'
@@ -50,18 +51,22 @@ module Lita
           summary = strings[2]
           full_text = strings[3]
 
-          if ignored_channels.include? channel || summary.empty?
+          if !thread_ts.nil?
+            str = summary
+          elsif ignored_channels.include? channel || summary.empty?
             str = full_text
           else
             threaded_reply = full_text
             str = summary
-
           end
         end
 
-        msg = api.send_messages(channel, [str])
-        api.send_messages(channel, [threaded_reply], msg['ts']) unless threaded_reply.nil?
-
+        if thread_ts
+          msg = api.send_messages(channel, [str], thread_ts)
+        else
+          msg = api.send_messages(channel, [str])
+          api.send_messages(channel, [threaded_reply], msg['ts']) unless threaded_reply.nil?
+        end
         msg
       end
 
