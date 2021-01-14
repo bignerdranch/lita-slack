@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Lita
   module Adapters
     class Slack < Adapter
@@ -8,7 +10,8 @@ module Lita
             User.create(
               slack_user.id,
               name: real_name(slack_user),
-              mention_name: slack_user.name
+              mention_name: slack_user.name,
+              email: slack_user.metadata&.dig('profile', 'email') || ''
             )
 
             update_robot(robot, slack_user) if slack_user.id == robot_id
@@ -22,7 +25,7 @@ module Lita
           private
 
           def real_name(slack_user)
-            slack_user.real_name.size > 0 ? slack_user.real_name : slack_user.name
+            !slack_user.real_name.empty? ? slack_user.real_name : slack_user.name
           end
 
           def update_robot(robot, slack_user)
