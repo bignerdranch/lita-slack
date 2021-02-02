@@ -117,9 +117,9 @@ describe Lita::Adapters::Slack, lita: true do
   end
 
   describe "#send_messages" do
-    let(:room_source) { Lita::Source.new(room: 'C024BE91L') }
+    let(:room_source) { Lita::Adapters::Slack::SlackSource.new(room: 'C024BE91L', extensions: { thread_ts: nil }) }
     let(:user) { Lita::User.new('U023BECGF') }
-    let(:user_source) { Lita::Source.new(user: user) }
+    let(:user_source) { Lita::Adapters::Slack::SlackSource.new(user: user) }
     let(:private_message_source) do
       Lita::Source.new(room: 'C024BE91L', user: user, private_message: true)
     end
@@ -133,7 +133,7 @@ describe Lita::Adapters::Slack, lita: true do
 
       it "does not send via the RTM api" do
         expect(rtm_connection).to_not receive(:send_messages)
-        expect(api).to receive(:send_messages).with(room_source.room, ['foo'])
+        expect(api).to receive(:send_messages).with(room_source.room, [['foo']])
 
         subject.send_messages(room_source, ['foo'])
       end

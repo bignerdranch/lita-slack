@@ -461,6 +461,7 @@ describe Lita::Adapters::Slack::API do
           as_user: true,
           channel: room,
           text: messages.join("\n"),
+          thread_ts: nil
         ) do
           [http_status, {}, http_response]
         end
@@ -489,6 +490,7 @@ describe Lita::Adapters::Slack::API do
             as_user: true,
             channel: room,
             text: messages.join("\n"),
+            thread_ts: nil
           ) do
             [http_status, {}, http_response]
           end
