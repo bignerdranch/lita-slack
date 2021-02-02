@@ -114,7 +114,7 @@ describe Lita::Adapters::Slack::RTMConnection, lita: true do
       it "shuts down the reactor" do
         with_websocket(subject, queue) do |websocket|
             websocket.close
-            expect(EM.stopping?).to be_truthy
+            expect(EM.stopping? || EM.stopped?).to be_truthy
           end
       end
     end
