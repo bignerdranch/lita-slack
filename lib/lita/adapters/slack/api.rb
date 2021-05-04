@@ -23,7 +23,8 @@ module Lita
 
         def im_open(user_id)
           # conversations.open replaced the deprecated im.open endpoint, but with an identical API response.
-          response_data = call_api("conversations.open", user: user_id)
+          # it was extended to handle more flavors of conversation, though, including creating MPIMs by supplying a comma-separated string of userIDs as "users" rather than the old single "user" arg.
+          response_data = call_api("conversations.open", users: user_id)
 
           SlackIM.new(response_data["channel"]["id"], user_id)
         end

@@ -15,7 +15,7 @@ describe Lita::Adapters::Slack::API do
     let(:channel_id) { 'D024BFF1M' }
     let(:stubs) do
       Faraday::Adapter::Test::Stubs.new do |stub|
-        stub.post('https://slack.com/api/conversations.open', token: token, user: user_id) do
+        stub.post('https://slack.com/api/conversations.open', token: token, users: user_id) do
           [http_status, {}, http_response]
         end
       end
