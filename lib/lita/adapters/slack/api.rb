@@ -22,7 +22,8 @@ module Lita
         end
 
         def im_open(user_id)
-          response_data = call_api("im.open", user: user_id)
+          # conversations.open replaced the deprecated im.open endpoint, but with an identical API response.
+          response_data = call_api("conversations.open", user: user_id)
 
           SlackIM.new(response_data["channel"]["id"], user_id)
         end
@@ -40,10 +41,18 @@ module Lita
         end
 
         def mpim_list
+          # (jeremy/2021-05-04)FIXME: Discontinued - switch to conversations.list.
+          # https://api.slack.com/methods/mpim.list
+          # https://api.slack.com/methods/conversations.list
+          # This is used to support the required Lita::Adapter method |roster|.
           call_api("mpim.list")
         end
 
         def im_list
+          # (jeremy/2021-05-04)FIXME: Discontinued - switch to conversations.list.
+          # https://api.slack.com/methods/im.list
+          # https://api.slack.com/methods/conversations.list
+          # (jeremy/2021-05-04)XXX: AFAICT, this is entirely unused in favor of mpim_list.
           call_api("im.list")
         end
 
@@ -77,6 +86,8 @@ module Lita
           TeamData.new(
             SlackIM.from_data_array(response_data["ims"]),
             SlackUser.from_data(response_data["self"]),
+            # Note: While membership info in each channel has been truncated at 500 users
+            # since March 2018, this |users| array should still be complete.
             SlackUser.from_data_array(response_data["users"]),
             SlackChannel.from_data_array(response_data["channels"]) +
               SlackChannel.from_data_array(response_data["groups"]),
